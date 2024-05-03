@@ -188,7 +188,7 @@ const Home = () => {
         <>
           <div className="text-black flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none text-sm lg:text-lg">
             <div className="bg-white  rounded-lg shadow-lg px-4 lg:px-10 py-8 lg:py-12">
-              <h3 className="text-3xl font-medium">Add Employee</h3>
+              <h3 className="text-lg lg:text-3xl font-medium">Add Employee</h3>
               <form className="p-5">
                 <div className="my-4">
                   <label
@@ -281,7 +281,7 @@ const Home = () => {
         <>
           <div className="text-black flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none text-sm lg:text-lg">
             <div className="bg-white  rounded-lg shadow-lg px-10 py-12">
-              <h3 className="text-3xl font-medium">Edit Employee</h3>
+              <h3 className="text-lg lg:text-3xl font-medium">Edit Employee</h3>
               <form className="p-5">
                 <div className="my-4">
                   <label
