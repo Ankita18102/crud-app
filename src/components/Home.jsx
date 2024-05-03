@@ -1,13 +1,12 @@
 import { useState } from "react";
-import Employee from "./Employees";
+// import Employee from "./Employees";
 import { useEffect } from "react";
-
+import {v4 as uuidv4} from "uuid"
 const Home = () => {
   const [employees, setEmployees] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [newEmployeeData, setNewEmployeeData] = useState({
-    id: new Date().getTime(),
     name: "",
     email: "",
     phone: "",
@@ -25,7 +24,6 @@ const Home = () => {
   const handleDelete = (id) => {
     let updatedEmployee = employees.filter((employee) => employee.id != id);
     setEmployees(updatedEmployee);
-
     localStorage.setItem("emps", JSON.stringify(updatedEmployee));
   };
 
@@ -62,9 +60,15 @@ const Home = () => {
   };
 
   const handleAddEmployee = () => {
-    setEmployees([newEmployeeData, ...employees]);
 
-    const emps = [newEmployeeData, ...employees];
+    const newEmp = {
+        id:uuidv4(),
+        ...newEmployeeData,
+    }
+    console.log(newEmp);
+    setEmployees([newEmp, ...employees]);
+
+    const emps = [newEmp, ...employees];
 
     localStorage.setItem("emps", JSON.stringify(emps));
 
@@ -149,7 +153,7 @@ const Home = () => {
                   index % 2 === 0 ? "bg-gray-700" : "bg-gray-800"
                 } hover:bg-gray-500 transition duration-300 text-center`}
               >
-                <td className="px-4 py-4 rounded-l-2xl">{item.id}</td>
+                <td className="px-4 py-4 rounded-l-2xl">EI00{index+1}</td>
                 <td className="px-4 py-4 font-medium">{item.name}</td>
                 <td className="px-4 py-4 text-indigo-300">{item.phone}</td>
                 <td className="px-4 py-4 text-indigo-300">{item.email}</td>
