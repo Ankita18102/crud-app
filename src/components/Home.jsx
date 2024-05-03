@@ -1,14 +1,13 @@
 import { useState } from "react";
 import Employee from "./Employees";
 import { useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 const Home = () => {
   const [employees, setEmployees] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [newEmployeeData, setNewEmployeeData] = useState({
-    id: "",
+    id: new Date().getTime(),
     name: "",
     email: "",
     phone: "",
@@ -17,13 +16,17 @@ const Home = () => {
   const [employeeToEdit, setEmployeeToEdit] = useState();
 
   useEffect(() => {
-    setEmployees(Employee);
+    const emps = JSON.parse(localStorage.getItem("emps"));
+    console.log("emps", emps);
+    setEmployees(emps?.length > 0 ? emps : []);
   }, []);
 
   //   delete
   const handleDelete = (id) => {
     let updatedEmployee = employees.filter((employee) => employee.id != id);
     setEmployees(updatedEmployee);
+
+    localStorage.setItem("emps", JSON.stringify(updatedEmployee));
   };
 
   //   addemployee
@@ -59,13 +62,12 @@ const Home = () => {
   };
 
   const handleAddEmployee = () => {
-    const id = uuidv4();
-    const randomId = id.slice(0, 6);
-    // Use spread operator and callback for proper update
-    setEmployees((prevEmployees) => [
-      ...prevEmployees, // Add existing employees
-      { ...newEmployeeData, id: randomId }, // Include ID in new object
-    ]);
+    setEmployees([newEmployeeData, ...employees]);
+
+    const emps = [newEmployeeData, ...employees];
+
+    localStorage.setItem("emps", JSON.stringify(emps));
+
     setShowAddModal(false);
   };
 
@@ -74,14 +76,14 @@ const Home = () => {
     setShowEditModal(true);
     const employeeToFind = employees.find((employee) => employee.id == id);
     setEmployeeToEdit(employeeToFind);
-    console.log(employeeToFind);
+    // console.log(employeeToFind);
   };
   const handleEditNameChange = (e) => {
     setEmployeeToEdit({ ...employeeToEdit, name: e.target.value });
   };
   const handleEditPhoneChange = (e) => {
     setEmployeeToEdit({ ...employeeToEdit, phone: e.target.value });
-    console.log(employeeToEdit);
+    // console.log(employeeToEdit);
   };
   const handleEditEmailChange = (e) => {
     setEmployeeToEdit({ ...employeeToEdit, email: e.target.value });
@@ -95,9 +97,26 @@ const Home = () => {
         emp.id == employeeToEdit.id ? employeeToEdit : emp
       )
     );
+    // Retrieve the current list of employees from localStorage
+    const currentEmployees = JSON.parse(localStorage.getItem("emps")) || [];
+
+    // Find the index of the edited employee in the current list
+    const editedEmployeeIndex = currentEmployees.findIndex(
+      (emp) => emp.id === employeeToEdit.id
+    );
+
+    // If the edited employee exists in the current list, replace it with the edited version
+    if (editedEmployeeIndex !== -1) {
+      currentEmployees[editedEmployeeIndex] = employeeToEdit;
+    }
+
+    // Set the updated list of employees to localStorage
+    localStorage.setItem("emps", JSON.stringify(currentEmployees));
 
     setShowEditModal(false);
   };
+
+  //   console.log(employees);
 
   return (
     <div>
@@ -108,7 +127,7 @@ const Home = () => {
         >
           + Add Employee
         </button>
-      </div> 
+      </div>
 
       <div className="mx-4 xl:mx-10 mt-16 lg:mt-20 overflow-auto">
         <table className="text-white text-xs xl:text-lg whitespace-nowrap w-full">
@@ -163,8 +182,8 @@ const Home = () => {
       {/* add employee modal */}
       {showAddModal ? (
         <>
-          <div className="text-black flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none text-2xl">
-            <div className="bg-white  rounded-lg shadow-lg px-10 py-12">
+          <div className="text-black flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none text-sm lg:text-lg">
+            <div className="bg-white  rounded-lg shadow-lg px-4 lg:px-10 py-8 lg:py-12">
               <h3 className="text-3xl font-medium">Add Employee</h3>
               <form className="p-5">
                 <div className="my-4">
@@ -256,7 +275,7 @@ const Home = () => {
       {/* edit employee modal */}
       {showEditModal ? (
         <>
-          <div className="text-black flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none text-2xl">
+          <div className="text-black flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none text-sm lg:text-lg">
             <div className="bg-white  rounded-lg shadow-lg px-10 py-12">
               <h3 className="text-3xl font-medium">Edit Employee</h3>
               <form className="p-5">
