@@ -110,7 +110,7 @@ const Home = () => {
         </button>
       </div> 
 
-      <div className="mx-4 xl:mx-10 mt-10 lg:mt-20 overflow-auto">
+      <div className="mx-4 xl:mx-10 mt-16 lg:mt-20 overflow-auto">
         <table className="text-white text-xs xl:text-lg whitespace-nowrap w-full">
           <thead>
             <tr className="text-gray-400">
