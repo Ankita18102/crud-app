@@ -255,7 +255,7 @@ const Home = () => {
                   />
                 </div>
               </form>
-              <div className="flex items-center justify-end gap-4 text-lg">
+              <div className="flex items-center justify-end gap-4 text-sm lg:text-lg">
                 <button
                   className="text-red-500 background-transparent font-bold uppercase"
                   type="button"
@@ -348,7 +348,7 @@ const Home = () => {
                   />
                 </div>
               </form>
-              <div className="flex items-center justify-end gap-4 text-lg">
+              <div className="flex items-center justify-end gap-4 text-sm lg:text-lg">
                 <button
                   className="text-red-500 background-transparent font-bold uppercase"
                   type="button"
